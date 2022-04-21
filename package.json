@@ -1,0 +1,25 @@
+{
+  "name": "eo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "webpack.mix.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Ali",
+  "license": "ISC",
+  "devDependencies": {
+    "laravel-mix": "^6.0.43",
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.50.0",
+    "sass-loader": "^12.1.0"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.1.0-9",
+    "@popperjs/core": "^2.11.5",
+    "bootstrap": "^5.1.3",
+    "jquery": "^3.6.0",
+    "owl.carousel": "^2.3.4"
+  }
+}
