@@ -7,3 +7,22 @@ function sanitize($raw_data): string
     $data = mysqli_real_escape_string($conn, $data);
     return trim($data);
 }
+
+function use_pw_reset_template($url) {
+    $mail_template = file_get_contents("../../pw_reset_mail_template.html");
+    return str_replace('<!!!---][ url ][---!!!>', $url, $mail_template);
+}
+
+function mk_password_hash_from_microtime(): array
+{
+    $mut = microtime();
+    $time = explode(" ", $mut);
+    $password = $time[1] * $time[0] * 1000000;
+    $password_hash = password_hash($password, PASSWORD_BCRYPT);
+    $one_hour = mktime(1, 0,0, 1, 1, 1970);
+    $date_formatted = date("d-m-y", ($time[1] + $one_hour));
+    $time_formatted = date("h:i:s", ($time[1] + $one_hour));
+    return array("password_hash" => $password_hash,
+        "date"          => $date_formatted,
+        "time"          => $time_formatted);
+}

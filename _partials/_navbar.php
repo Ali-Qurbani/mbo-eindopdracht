@@ -1,54 +1,44 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
-        <a class="navbar-brand bg-primary" href="#">Navbar</a>
         <button class="navbar-toggler w-100" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <div class="position-absolute end-0 top-0 m-3">
+            <div class="position-absolute end-0 top-0 m-2">
                 <?php
                 if (isset($_SESSION["id"])) {?>
                     <div class="dropdown">
-                        <button class="btn text-secondary dropdown-toggle" type="button" id="navbar_account_dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button class="btn text-primary dropdown-toggle" type="button" id="navbar_account_dropdown" data-bs-toggle="dropdown" aria-expanded="false">
                             Session
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end bg-dark" aria-labelledby="navbar_account_dropdown">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbar_account_dropdown">
                             <li><a class="dropdown-item text-secondary" href="/dashboard.php">Dashboard</a></li>
                             <li><a class="dropdown-item text-secondary" href="/resources/php/_logout.php">Logout</a></li>
                         </ul>
                     </div>
                     <?php
                 } else {
-                    echo '<a class="text-decoration-none" href="/resources/php/_login.php">Login</a>';
+                    echo '<a class="text-decoration-none" href="login.php"><button class="btn text-primary">Login</button></a>';
                 }
                 ?>
             </div>
+<!--            <a class="bg-primary" href="#">Navbar</a>-->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
+                    <a class="nav-link" href="coins.php">Coins</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Dropdown link
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
+                    <a class="nav-link" href="contact.php">Contact</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
-<div id="crypto-price-line" class="p-2">
+<div id="crypto-price-line" class="pt-2 pb-2 bg-light">
     <div class="owl-carousel">
-    <!--        --><?php //get_prices() ?>
+
     </div>
 </div>

@@ -3209,6 +3209,7 @@ function withinMaxClamp(min, value, max) {
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 /* provided dependency */ var __webpack_provided_window_dot_jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 window.$ = __webpack_provided_window_dot_jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
 __webpack_require__(/*! owl.carousel */ "./node_modules/owl.carousel/dist/owl.carousel.js");
@@ -3216,6 +3217,31 @@ __webpack_require__(/*! owl.carousel */ "./node_modules/owl.carousel/dist/owl.ca
 window.popper = __webpack_require__(/*! @popperjs/core */ "./node_modules/@popperjs/core/lib/index.js");
 
 __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+
+$('#crypto-price-line .owl-carousel').owlCarousel({
+  loop: true,
+  nav: false,
+  autoplay: true,
+  dots: false,
+  slideTransition: 'linear',
+  autoplayTimeout: 2000,
+  autoplaySpeed: 2000,
+  autoplayHoverPause: false,
+  touchDrag: false,
+  mouseDrag: false,
+  center: true,
+  responsive: {
+    0: {
+      items: 2
+    },
+    600: {
+      items: 3
+    },
+    1200: {
+      items: 7
+    }
+  }
+});
 
 /***/ }),
 

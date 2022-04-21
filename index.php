@@ -1,12 +1,13 @@
 <?php
 session_start();
+include_once 'resources/php/_connect_db.php';
 include_once 'resources/php/_functions.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Home</title>
-    <meta name="title" content="Startseite">
+    <meta name="title" content="Home">
     <?php include_once '_partials/_head.php' ?>
 </head>
 <body>
