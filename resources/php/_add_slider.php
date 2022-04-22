@@ -9,6 +9,9 @@ if (empty($_POST)) {
     header("Location: /dashboard.php");
     return false;
 } else {
+    unset($_SESSION["dashboard-alert-type"]);
+    unset($_SESSION["dashboard-message"]);
+
     include_once '_connect_db.php';
     include_once '_functions.php';
 
@@ -22,7 +25,9 @@ if (empty($_POST)) {
     }
 
     if (!is_uploaded_file($_FILES ['picture'] ['tmp_name'])) {
-        echo 'No image found';
+        $_SESSION['dashboard-alert-type'] = 'error';
+        $_SESSION['dashboard-message'] = 'No image found.';
+        header("Location: /dashboard.php");
         return false;
     } else {
         $unique_filename = time() . uniqid(rand());
@@ -65,5 +70,7 @@ if (empty($_POST)) {
     $stmt->bind_param("sssi", $target, $title, $description, $visibility);
     $stmt->execute();
 
+    $_SESSION['dashboard-alert-type'] = 'success';
+    $_SESSION['dashboard-message'] = 'Slider successfully added.';
     header("Location: /dashboard.php");
 }

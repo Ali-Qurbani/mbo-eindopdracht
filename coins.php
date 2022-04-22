@@ -36,3 +36,7 @@ include_once 'resources/php/_functions.php';
         </div>
     </div>
 </div>
+
+<?php include_once '_partials/_footer.php' ?>
+</body>
+</html>

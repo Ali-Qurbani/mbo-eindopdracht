@@ -11612,6 +11612,12 @@ body {
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
+.dashboard-item a {
+  text-decoration: none;
+  color: #4766f8;
+  font-weight: bolder;
+}
 /*!
  * Font Awesome Free 5.1.0-9 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)

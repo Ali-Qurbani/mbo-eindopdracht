@@ -70,3 +70,9 @@ body {
   margin-top: 15px;
   margin-bottom: 15px;
 }
+
+.dashboard-item a {
+  text-decoration: none;
+  color: $primary;
+  font-weight: bolder;
+}

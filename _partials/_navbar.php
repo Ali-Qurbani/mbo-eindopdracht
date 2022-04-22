@@ -39,6 +39,29 @@
 </nav>
 <div id="crypto-price-line" class="pt-2 pb-2 bg-light">
     <div class="owl-carousel">
+        <?php
+            $stmt = $conn->prepare("SELECT `icon_src`, `naam`, `prijs` FROM `coins` WHERE `zichtbaar` = 1");
+            $stmt->execute();
+            $result = $stmt->get_result();
 
+            $coins[] = '';
+            while ($record = mysqli_fetch_assoc($result)) {
+                $coins[] .= '<div class="row slider_div">
+                                <div class="col-2">
+                                    <img src="'.$record['icon_src'].'" height="20" alt="'.$record['naam'].'">
+                                </div>
+                                <div class="col">
+                                    <span class="fw-bold">$'.$record['prijs'].'</span>
+                                </div>
+                            </div>';
+                        }
+            $stmt->close();
+
+            unset($coins[0]);
+            foreach ($coins as $coin) {
+                echo $coin;
+            }
+            unset($coins);
+        ?>
     </div>
 </div>

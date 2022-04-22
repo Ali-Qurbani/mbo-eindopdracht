@@ -10,7 +10,7 @@ unset($_SESSION["dashboard-message"]);
 include("_connect_db.php");
 $id = $_GET["id"];
 
-$stmt = $conn->prepare("SELECT `image_src` FROM `slider-images` WHERE id = '$id'");
+$stmt = $conn->prepare("SELECT `icon_src` FROM `coins` WHERE id = '$id'");
 $stmt->execute();
 $stmt->bind_result($db_image_src);
 while (mysqli_stmt_fetch($stmt)) {
@@ -23,11 +23,11 @@ if (!unlink($file_pointer)) {
     return false;
 }
 
-$stmt2 = $conn->prepare("DELETE FROM `slider-images` WHERE id = ?");
+$stmt2 = $conn->prepare("DELETE FROM `coins` WHERE id = ?");
 $stmt2->bind_param("s", $id);
 $stmt2->execute();
 $stmt2->close();
 
 $_SESSION['dashboard-alert-type'] = 'success';
-$_SESSION['dashboard-message'] = 'Slider successfully removed.';
+$_SESSION['dashboard-message'] = 'Coin successfully removed.';
 header("Location: /dashboard.php");

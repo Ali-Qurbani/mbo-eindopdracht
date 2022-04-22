@@ -9,7 +9,7 @@ $stmt->close();
 
 <div class="sidebar">
     <a href="account.php" class="text-center text-decoration-none">
-        <img src="<?php echo $img_src ?>" class="img-fluid px-4" alt="profile-image">
+        <img src="<?php echo $img_src ?>" class="avatar" alt="profile-image">
     </a>
     <h5 class="text-secondary text-center pt-2"><?php echo $username ?></h5>
     <a href="account.php">

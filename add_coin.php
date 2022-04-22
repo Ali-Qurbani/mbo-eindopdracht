@@ -25,18 +25,23 @@ include_once 'resources/php/_functions.php';
         <div class="container">
             <form action="/resources/php/_add_coin.php" method="post" enctype="multipart/form-data">
                 <div class="my-3">
-                    <label for="image" class="form-label">Icon</label>
-                    <input class="form-control" type="file" id="image" name="images" accept="image/png, image/jpg, image/jpeg, image/gif" aria-describedby="pictureHelp">
+                    <label for="picture" class="form-label">Icon</label>
+                    <input class="form-control" type="file" id="picture" name="picture" accept="image/svg+xml, image/png, image/jpg, image/jpeg, image/gif" aria-describedby="pictureHelp">
                     <small id="pictureHelp" class="form-text text-muted">Supported file types (SVG, PNG, JPEG, GIF)</small>
                 </div>
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
                     <input type="text" class="form-control" id="name" name="name" aria-describedby="nameHelp">
-                    <div id="nameHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    <div id="nameHelp" class="form-text">Name of the coin.</div>
                 </div>
                 <div class="mb-3">
-                    <label for="code" class="form-label">Exchange code</label>
-                    <input type="text" class="form-control" id="code">
+                    <label for="symbol" class="form-label">Exchange symbol</label>
+                    <input type="text" class="form-control" id="symbol" name="symbol">
+                    <div id="symbolHelp" class="form-text">Example: "XXXUSDT"</div>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" id="visibility" name="visibility" value="1" checked>
+                    <label class="form-check-label" for="visibility">Visible</label>
                 </div>
                 <button type="submit" class="btn btn-outline-primary">Add</button>
             </form>
