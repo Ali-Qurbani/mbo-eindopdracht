@@ -5,9 +5,12 @@ include_once 'resources/php/_functions.php';
 
 $stmt = $conn->prepare("SELECT `image_src`, `title`, `description` FROM `slider-images` WHERE `visibility` = '1'");
 $stmt->execute();
-$stmt->store_result();
-$stmt->bind_result($img_src, $title, $description);
-$stmt->fetch();
+$result = $stmt->get_result();
+
+$records[] = '';
+while ($record = mysqli_fetch_assoc($result)) {
+    $records[] .= $record['image_src'];
+}
 $stmt->close();
 ?>
 <!DOCTYPE html>
@@ -20,31 +23,18 @@ $stmt->close();
 <body>
 <?php include_once '_partials/_navbar.php' ?>
 
-<div id="home_carousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#home_carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#home_carousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#home_carousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
-    </div>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="<?php echo $img_src ?>" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
-            <img src="..." class="d-block w-100" alt="...">
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#home_carousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#home_carousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
+<div class="home-owl-carousel owl-carousel">
+    <?php
+    unset($records[0]);
+    foreach ($records as $slider) {
+        ?>
+        <img src="<?php echo $slider ?>" class="img-fluid" alt="...">
+        <?php
+    }
+    ?>
+</div>
+<div class="container">
+
 </div>
 
 <?php include_once '_partials/_footer.php' ?>

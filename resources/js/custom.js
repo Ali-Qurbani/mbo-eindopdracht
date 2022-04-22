@@ -28,6 +28,18 @@ $('#crypto-price-line .owl-carousel').owlCarousel({
     }
 })
 
+$('.home-owl-carousel').owlCarousel({
+    loop: true,
+    autoplay: true,
+    nav: false,
+    dots: false,
+    responsive:{
+        0:{
+            items:1
+        }
+    }
+})
+
 let contact_form = document.getElementById("contact_form");
 if (contact_form) {
     document.contactform = undefined;

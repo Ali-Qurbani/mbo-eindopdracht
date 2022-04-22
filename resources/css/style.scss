@@ -61,3 +61,12 @@ body {
     border-color: $danger;
   }
 }
+
+.dashboard-item {
+  position: relative;
+  background-color: $secondary;
+  padding: 18px 22px;
+  border-radius: 15px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

@@ -18,13 +18,8 @@ $stmt->close();
         </button>
     </a>
     <a href="dashboard.php">
-        <button type="button" class="btn btn-primary mt-3 w-100">
+        <button type="button" class="btn btn-outline-primary mt-3 w-100">
             Overview
-        </button>
-    </a>
-    <a href="add_coin.php">
-        <button type="button" class="btn btn-primary position-relative mt-3 w-100">
-            Add Coins
         </button>
     </a>
     <div class="sidebar-bottom">

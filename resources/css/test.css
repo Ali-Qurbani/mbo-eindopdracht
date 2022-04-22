@@ -1,0 +1,9 @@
+.cat_vis {
+    position: relative;
+    bottom: 20px;
+    padding: 2px 6px 6px;
+    right: 25px;
+}
+
+.cat_vis_Visible {background-color: #a2fd12;}
+.cat_vis_Hidden {background-color: #ff0900;}
