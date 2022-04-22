@@ -8,6 +8,13 @@ function sanitize($raw_data): string
     return trim($data);
 }
 
+function use_template($name, $email, $tel, $comment) {
+    $mail_template = file_get_contents("../../mail_template.html");
+    $template_vars = ['<!!!---][ name ][---!!!>', '<!!!---][ mail ][---!!!>', '<!!!---][ tel ][---!!!>', '<!!!---][ message ][---!!!>'];
+    $vars = [$name, $email, $tel, $comment];
+    return str_replace($template_vars, $vars, $mail_template);
+}
+
 function use_pw_reset_template($url) {
     $mail_template = file_get_contents("../../pw_reset_mail_template.html");
     return str_replace('<!!!---][ url ][---!!!>', $url, $mail_template);
