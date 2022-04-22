@@ -2,6 +2,13 @@
 session_start();
 include_once 'resources/php/_connect_db.php';
 include_once 'resources/php/_functions.php';
+
+$stmt = $conn->prepare("SELECT `image_src`, `title`, `description` FROM `slider-images` WHERE `visibility` = '1'");
+$stmt->execute();
+$stmt->store_result();
+$stmt->bind_result($img_src, $title, $description);
+$stmt->fetch();
+$stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +28,7 @@ include_once 'resources/php/_functions.php';
     </div>
     <div class="carousel-inner">
         <div class="carousel-item active">
-            <img src="https://via.placeholder.com/720x200" class="d-block w-100" alt="...">
+            <img src="<?php echo $img_src ?>" class="d-block w-100" alt="...">
         </div>
         <div class="carousel-item">
             <img src="..." class="d-block w-100" alt="...">
