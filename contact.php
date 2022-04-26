@@ -3,24 +3,18 @@ session_start();
 include_once 'resources/php/_connect_db.php';
 include_once 'resources/php/_functions.php';
 
-$stmt = $conn->prepare("SELECT `image_src`, `title`, `description` FROM `slider-images` WHERE `visibility` = '1'");
-$stmt->execute();
-$stmt->store_result();
-$stmt->bind_result($img_src, $title, $description);
-$stmt->fetch();
-$stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Home</title>
-    <meta name="title" content="Home">
+    <title>Contact</title>
+    <meta name="title" content="Contact">
     <?php include_once '_partials/_head.php' ?>
 </head>
 <body>
 <?php include_once '_partials/_navbar.php' ?>
 
-<div class="container">
+<div class="container p-5">
     <?php
     if(isset($_SESSION['contact_status_type']) && isset($_SESSION['contact_status'])){
         if ($_SESSION['contact_status_type'] === 'success') {

@@ -7,8 +7,8 @@ if (isset($_SESSION["id"]) || empty($_POST)) {
     require_once '_connect_db.php';
     require_once '_functions.php';
 
-    $username = sanitize($_POST['username']);
-    $password = sanitize($_POST['password']);
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
     // set login attempt if not set
     if (!isset($_SESSION['attempt'])) {
@@ -27,15 +27,12 @@ if (isset($_SESSION["id"]) || empty($_POST)) {
         header("Location: ../../login.php");
         return false;
     } else {
-        $stmt = $conn->prepare("SELECT `id`, `password` FROM `users` WHERE `username` = ?;");
-        $stmt->bind_param("s", $username);
-        $stmt->execute();
-        $stmt->bind_result($id, $pw);
-        while (mysqli_stmt_fetch($stmt)) {
-            $userid = $id;
-            $db_pw = $pw;
-        }
-        $stmt->close();
+        $statement = $db->query("SELECT `id`, `password` FROM `users` WHERE `username` = '$username'");
+
+        $id_und_pw = $statement->fetch(PDO::FETCH_ASSOC);
+        $userid = $id_und_pw['id'];
+        $db_pw = $id_und_pw['password'];
+
         if (password_verify($password, $db_pw) & isset($userid)) {
             // password matched
             unset($_SESSION['attempt']);

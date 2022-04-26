@@ -13,12 +13,10 @@ if (empty($_GET['id'])) {
 } else {
     $id = $_GET['id'];
 
-    $stmt = $conn->prepare("SELECT `title`, `description`, `visibility` FROM `slider-images` WHERE `id` = '$id'");
-    $stmt->execute();
-    $stmt->store_result();
-    $stmt->bind_result($title, $description, $visibility);
-    $stmt->fetch();
-    $stmt->close();
+    $sql = 'SELECT `id`, `title`, `description`, `visibility` FROM `slider-images` WHERE `id` = :id';
+    $sth = $db->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+    $sth->execute(array('id' => $id));
+    $current_slide = $sth->fetch();
 }
 ?>
 <!DOCTYPE html>
@@ -41,7 +39,7 @@ if (empty($_GET['id'])) {
             <form action="/resources/php/_edit_slider.php" method="post" enctype="multipart/form-data">
                 <div class="my-3">
                     <label for="image" class="form-label">ID</label>
-                    <input class="form-control" type="text" value="<?php echo $id ?>" aria-label="readonly input example" name="id" readonly>
+                    <input class="form-control" type="text" value="<?php echo $current_slide['id'] ?>" aria-label="readonly input example" name="id" readonly>
                 </div>
                 <div class="my-3">
                     <label for="picture" class="form-label">Icon</label>
@@ -50,14 +48,14 @@ if (empty($_GET['id'])) {
                 </div>
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" value="<?php echo $title ?>">
+                    <input type="text" class="form-control" id="title" name="title" value="<?php echo $current_slide['title'] ?>">
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
-                    <input type="text" class="form-control" id="description" name="description" value="<?php echo $description ?>">
+                    <input type="text" class="form-control" id="description" name="description" value="<?php echo $current_slide['description'] ?>">
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="visibility" name="visibility" value="1" <?php if ($visibility === 1) echo 'checked' ?>>
+                    <input type="checkbox" class="form-check-input" id="visibility" name="visibility" value="1" <?php if ($current_slide['visibility'] === '1') echo 'checked' ?>>
                     <label class="form-check-label" for="visibility">Visible</label>
                 </div>
                 <button type="submit" class="btn btn-outline-primary">Save</button>

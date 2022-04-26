@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('Europe/Amsterdam');
 
 function sanitize($raw_data): string
 {
@@ -32,4 +33,36 @@ function mk_password_hash_from_microtime(): array
     return array("password_hash" => $password_hash,
         "date"          => $date_formatted,
         "time"          => $time_formatted);
+}
+
+function get_db_slide_info($db) {
+    $statement = $db->query("SELECT `id`, `image_src`, `visibility`, `title`, `description` FROM `slider-images` ORDER BY `visibility` DESC");
+
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function get_db_coin_info($db) {
+    $statement = $db->query("SELECT `id`, `icon_src`, `name`, `price`, `visibility`, `last_updated` FROM `coins` ORDER BY `visibility` DESC");
+
+    return $coins = $statement->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function now(): string
+{
+    $date = new DateTime();
+    return $date->format('Y-m-d H:i:s');
+}
+
+function update_prices($db) {
+    $statement = $db->query("SELECT `id`, `icon_src`, `name`, `price`, `visibility`, `last_updated` FROM `coins` WHERE `visibility` = '1'");
+
+    $coins = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($coins as $coin) {
+        $data = json_decode(file_get_contents("https://api.binance.com/api/v3/avgPrice?symbol=".$coin['id']), TRUE);
+
+        $statement = "UPDATE `coins` SET `price` = :price, `last_updated` = :last_update WHERE `coins`.`id` = :id;";
+        $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $sth->execute(array('price' => $data['price'], 'id' => $coin['id'], 'last_update' => now()));
+    }
 }

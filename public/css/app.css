@@ -11543,6 +11543,30 @@ body {
   z-index: 55;
 }
 
+#crypto-price-line {
+  position: relative;
+  background-color: #5fcdf0;
+  -webkit-animation: bottom_200_to_0 1.5s ease-in-out;
+          animation: bottom_200_to_0 1.5s ease-in-out;
+}
+
+@-webkit-keyframes bottom_200_to_0 {
+  from {
+    bottom: 200px;
+  }
+  to {
+    bottom: 0;
+  }
+}
+
+@keyframes bottom_200_to_0 {
+  from {
+    bottom: 200px;
+  }
+  to {
+    bottom: 0;
+  }
+}
 .navbar-collapse {
   justify-content: center;
 }
@@ -11562,7 +11586,7 @@ body {
 }
 
 .btn {
-  border-radius: 25px;
+  border-radius: revert;
   border-width: 3px;
   padding-left: 25px;
   padding-right: 25px;
@@ -11606,11 +11630,12 @@ body {
 }
 .dashboard-item {
   position: relative;
-  background-color: #5fcdf0;
+  background-color: #212529;
   padding: 18px 22px;
   border-radius: 15px;
   margin-top: 15px;
   margin-bottom: 15px;
+  border: solid 3px;
 }
 
 .dashboard-item a {

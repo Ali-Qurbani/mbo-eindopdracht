@@ -34,14 +34,13 @@ if (empty($_POST)) {
 
         $filename = $_FILES['picture']['name'];
 
-        $stmt2 = $conn->prepare("SELECT `id` from `slider-images` where id = ?");
-        $stmt2->bind_param("s", $unique_filename);
-        $stmt2->execute();
-        $result = $stmt2->get_result();
-        $stmt2->close();
+        $statement = 'SELECT `id` from `slider-images` where id = :id';
+        $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $sth->execute(array('id' => $unique_filename));
+        $slider_result = $sth->fetch();
 
-        if (mysqli_num_rows($result)) {
-            header('Location: /index.php?content=content/add&T=' . $title . '&D=' . $description);
+        if (isset($slider_result['id'])) {
+            header('Location: /addslider.php?title=' . $title . '&description=' . $description);
         } else {
             $info = pathinfo($_FILES['picture']['name']);
             $ext = $info['extension'];
@@ -66,9 +65,10 @@ if (empty($_POST)) {
         }
     }
 
-    $stmt = $conn->prepare("INSERT INTO `slider-images` (`id`, `image_src`, `title`, `description`, `visibility`) VALUES (NULL, ?, ?, ?, ?);");
-    $stmt->bind_param("sssi", $target, $title, $description, $visibility);
-    $stmt->execute();
+    $statement2 = 'INSERT INTO `slider-images` (`id`, `image_src`, `title`, `description`, `visibility`) 
+                    VALUES (NULL, :target, :title, :description, :visibility);';
+    $sth = $db->prepare($statement2, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+    $sth->execute(array('target' => $target, 'title' => $title, 'description' => $description, 'visibility' => $visibility));
 
     $_SESSION['dashboard-alert-type'] = 'success';
     $_SESSION['dashboard-message'] = 'Slider successfully added.';

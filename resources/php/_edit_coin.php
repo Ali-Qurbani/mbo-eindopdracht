@@ -23,25 +23,22 @@ if (empty($_POST) || empty($_POST['symbol'])) {
     }
 
     if (!is_uploaded_file($_FILES ['picture'] ['tmp_name'])) {
-        $stmt = $conn->prepare("UPDATE `coins` SET 
-                           `id` = ?, 
-                           `naam` = ?, 
-                           `zichtbaar` = ? 
-                            WHERE `coins`.`id` = ?;");
-
-        $stmt->bind_param("ssis", $symbol, $coin_name, $visibility, $old_id);
+        $statement = 'UPDATE `coins` SET 
+                           `id` = :symbol, 
+                           `name` = :coin_name, 
+                           `visibility` = :visibility 
+                            WHERE `coins`.`id` = :old_id;';
+        $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $sth->execute(array('symbol' => $symbol, 'coin_name' => $coin_name, 'visibility' => $visibility, 'old_id' => $old_id));
     } else {
         $unique_filename = time() . uniqid(rand());
 
         $filename = $_FILES['picture']['name'];
 
-        $stmt3 = $conn->prepare("SELECT `icon_src` FROM `coins` WHERE id = '$old_id'");
-        $stmt3->execute();
-        $stmt3->bind_result($db_coin_src);
+        $stmt = $db->query("SELECT `icon_src` FROM `coins` WHERE id = '$old_id'");
+        $old_img = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        while (mysqli_stmt_fetch($stmt3)) {
-            $old_img_src = $db_coin_src;
-        }
+        $old_img_src = $old_img['icon_src'];
 
         $info = pathinfo($_FILES['picture']['name']);
         $ext = $info['extension'];
@@ -50,24 +47,23 @@ if (empty($_POST) || empty($_POST['symbol'])) {
         move_uploaded_file($_FILES['picture']['tmp_name'], $target);
 
         // Delete the previous coin image from the disk
-        $file_pointer = $db_coin_src;
+        $file_pointer = $old_img['icon_src'];
         if (!unlink($file_pointer)) {
             echo 'File deletion error';
             return false;
         }
 
-        $stmt = $conn->prepare("UPDATE `coins` SET 
-                           `icon_src` = ?, 
-                           `id` = ?, 
-                           `naam` = ?, 
-                           `zichtbaar` = ? 
-                            WHERE `coins`.`id` = ?;");
-
-        $stmt->bind_param("sssis", $target, $symbol, $coin_name, $visibility, $old_id);
+        $statement = 'UPDATE `coins` SET 
+                           `id` = :symbol, 
+                           `icon_src` = :target, 
+                           `name` = :coin_name, 
+                           `visibility` = :visibility 
+                            WHERE `coins`.`id` = :old_id;';
+        $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $sth->execute(array('symbol' => $symbol, 'target' => $target, 'coin_name' => $coin_name, 'visibility' => $visibility, 'old_id' => $old_id));
     }
 
-    $stmt->execute();
-    $stmt->close();
-
+    $_SESSION['dashboard-alert-type'] = 'success';
+    $_SESSION['dashboard-message'] = 'Coin successfully edited.';
     header("Location: /dashboard.php");
 }

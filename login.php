@@ -1,10 +1,13 @@
 <?php
 session_start();
+include_once 'resources/php/_connect_db.php';
+include_once 'resources/php/_functions.php';
 if (isset($_SESSION["id"])) {
-    header("Location: /dasboard.php");
+    header("Location: /dashboard.php");
     return false;
 }
-
+unset($_SESSION['attempt']);
+unset($_SESSION['attempt_again']);
 include_once 'resources/php/_functions.php';
 
 // check if the login cooldown's over

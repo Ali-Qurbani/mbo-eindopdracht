@@ -51,10 +51,10 @@ if (empty($_POST)) {
         move_uploaded_file($_FILES['picture']['tmp_name'], $target);
     }
 
-    $stmt = $conn->prepare("INSERT INTO `coins` (`id`, `icon_src`, `naam`, `prijs`, `zichtbaar`) VALUES (?, ?, ?, ?, ?);");
-    $stmt->bind_param("ssssi", $symbol, $target, $name, $price, $visibility);
-    $stmt->execute();
-    $stmt->close();
+    $statement = 'INSERT INTO `coins` (`id`, `icon_src`, `name`, `price`, `visibility`, `last_updated`) 
+    VALUES (:symbol, :target, :name, :price, :visibility, :last_update);';
+    $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+    $sth->execute(array('symbol' => $symbol, 'target' => $target, 'name' => $name, 'price' => $price, 'visibility' => $visibility, 'last_update' => now()));
 
     $_SESSION['dashboard-alert-type'] = 'success';
     $_SESSION['dashboard-message'] = 'Coin successfully added.';

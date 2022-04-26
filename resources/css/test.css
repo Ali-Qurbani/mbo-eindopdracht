@@ -1,12 +1,11 @@
 .avatar {
     width: 100%;
     border: solid 4px grey;
-    border-radius: 50%;
 }
 
 .slider_div {
-    background-color: white;
-    border-radius: 15px;
+    background-color: #59c4e7;
+    padding: 5px;
     margin-left: 5px;
     margin-right: 5px;
 }

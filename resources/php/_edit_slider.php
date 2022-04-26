@@ -24,25 +24,23 @@ if (empty($_POST) || empty($_POST['id'])) {
     }
 
     if (!is_uploaded_file($_FILES ['picture'] ['tmp_name'])) {
-        $stmt = $conn->prepare("UPDATE `slider-images` SET 
-                           `title` = ?, 
-                           `description` = ?, 
-                           `visibility` = ? 
-                            WHERE `slider-images`.`id` = ?;");
+        $statement = 'UPDATE `slider-images` SET 
+                           `title` = :title, 
+                           `description` = :description, 
+                           `visibility` = :visibility 
+                            WHERE `slider-images`.`id` = :image_id;';
+        $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $sth->execute(array('title' => $title, 'description' => $description, 'visibility' => $visibility, 'image_id' => $image_id));
 
-        $stmt->bind_param("ssii", $title, $description, $visibility, $image_id);
     } else {
         $unique_filename = time() . uniqid(rand());
 
         $filename = $_FILES['picture']['name'];
 
-        $stmt3 = $conn->prepare("SELECT `image_src` FROM `slider-images` WHERE id = '$image_id'");
-        $stmt3->execute();
-        $stmt3->bind_result($db_image_src);
+        $stmt = $db->query("SELECT `image_src` FROM `slider-images` WHERE id = '$image_id'");
+        $old_img = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        while (mysqli_stmt_fetch($stmt3)) {
-            $old_img_src = $db_image_src;
-        }
+        $old_img_src = $old_img['image_src'];
 
         $info = pathinfo($_FILES['picture']['name']);
         $ext = $info['extension'];
@@ -57,18 +55,17 @@ if (empty($_POST) || empty($_POST['id'])) {
             return false;
         }
 
-        $stmt = $conn->prepare("UPDATE `slider-images` SET 
-                           `image_src` = ?, 
-                           `title` = ?, 
-                           `description` = ?, 
-                           `visibility` = ? 
-                            WHERE `slider-images`.`id` = ?;");
-
-        $stmt->bind_param("sssii", $target, $title, $description, $visibility, $image_id);
+        $statement = 'UPDATE `slider-images` SET 
+                           `image_src` = :target, 
+                           `title` = :title, 
+                           `description` = :description, 
+                           `visibility` = :visibility 
+                            WHERE `slider-images`.`id` = :image_id;';
+        $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $sth->execute(array('target' => $target, 'title' => $title, 'description' => $description, 'visibility' => $visibility, 'image_id' => $image_id));
     }
 
-    $stmt->execute();
-    $stmt->close();
-
+    $_SESSION['dashboard-alert-type'] = 'success';
+    $_SESSION['dashboard-message'] = 'Slider successfully edited.';
     header("Location: /dashboard.php");
 }

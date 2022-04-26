@@ -10,23 +10,22 @@ unset($_SESSION["dashboard-message"]);
 include("_connect_db.php");
 $id = $_GET["id"];
 
-$stmt = $conn->prepare("SELECT `image_src` FROM `slider-images` WHERE id = '$id'");
-$stmt->execute();
-$stmt->bind_result($db_image_src);
-while (mysqli_stmt_fetch($stmt)) {
-    $old_img_src = $db_image_src;
-}
+$statement = 'SELECT `image_src` FROM `slider-images` WHERE id = :id';
+$sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+$sth->execute(array('id' => $id));
+$img_src = $sth->fetch();
 
-$file_pointer = $old_img_src;
+$file_pointer = $img_src['image_src'];
 if (!unlink($file_pointer)) {
-    echo 'File deletion error';
+    $_SESSION['dashboard-alert-type'] = 'error';
+    $_SESSION['dashboard-message'] = 'File deletion error.';
+    header("Location: /dashboard.php");
     return false;
 }
 
-$stmt2 = $conn->prepare("DELETE FROM `slider-images` WHERE id = ?");
-$stmt2->bind_param("s", $id);
-$stmt2->execute();
-$stmt2->close();
+$statement2 = "DELETE FROM `slider-images` WHERE id = :id";
+$sth2 = $db->prepare($statement2, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+$sth2->execute(array('id' => $id));
 
 $_SESSION['dashboard-alert-type'] = 'success';
 $_SESSION['dashboard-message'] = 'Slider successfully removed.';

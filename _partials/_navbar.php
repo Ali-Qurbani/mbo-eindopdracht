@@ -37,31 +37,37 @@
         </div>
     </div>
 </nav>
-<div id="crypto-price-line" class="pt-2 pb-2 bg-light">
+<div id="crypto-price-line">
     <div class="owl-carousel">
         <?php
-            $stmt = $conn->prepare("SELECT `icon_src`, `naam`, `prijs` FROM `coins` WHERE `zichtbaar` = 1");
-            $stmt->execute();
-            $result = $stmt->get_result();
+            $nav_db_query = $db->query("SELECT * FROM `coins` WHERE `visibility` = '1'");
 
-            $coins[] = '';
-            while ($record = mysqli_fetch_assoc($result)) {
-                $coins[] .= '<div class="row slider_div">
-                                <div class="col-2">
-                                    <img src="'.$record['icon_src'].'" height="20" alt="'.$record['naam'].'">
-                                </div>
-                                <div class="col">
-                                    <span class="fw-bold">$'.$record['prijs'].'</span>
-                                </div>
-                            </div>';
-                        }
-            $stmt->close();
+            $coins = $nav_db_query->fetchAll(PDO::FETCH_ASSOC);
 
-            unset($coins[0]);
             foreach ($coins as $coin) {
-                echo $coin;
-            }
-            unset($coins);
-        ?>
+                $last_updated = date_create($coin['last_updated']);
+                $now = date_create(date('Y-m-d h:i:sa'));
+                $interval = date_diff($last_updated, $now);
+                $min = $interval->days * 24 * 60;
+                $min += $interval->h * 60;
+                $min += $interval->i;
+                if ($min >= 5) {
+                    update_prices($db);
+                }
+                ?>
+                <a class="text-decoration-none text-black" href="coins.php#<?php echo $coin['name'] ?>">
+                    <div class="row slider_div">
+                        <div class="col-3">
+                            <img src="<?php echo $coin['icon_src'] ?>" width="20" height="20" alt="<?php echo $coin['name'] ?>">
+                        </div>
+                        <div class="col-4">
+                            <span class="fw-bold">$<?php echo $coin['price'] ?></span>
+                        </div>
+                    </div>
+                </a>
+            <?php
+                }
+            unset($nav_db_query, $coins, $coin)
+            ?>
     </div>
 </div>

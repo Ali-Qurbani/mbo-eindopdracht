@@ -12,6 +12,22 @@ body {
   z-index: 55;
 }
 
+#crypto-price-line {
+  position: relative;
+  background-color: $secondary;
+  //padding: 10px 0;
+  animation: bottom_200_to_0 1.5s ease-in-out;
+}
+
+@keyframes bottom_200_to_0 {
+  from {
+    bottom: 200px;
+  }
+  to {
+    bottom: 0;
+  }
+}
+
 .navbar-collapse {
   justify-content: center;
 }
@@ -35,7 +51,7 @@ body {
 //}
 
 .btn {
-  border-radius: 25px;
+  border-radius: revert;
   border-width: 3px;
   padding-left: 25px;
   padding-right: 25px;
@@ -64,11 +80,12 @@ body {
 
 .dashboard-item {
   position: relative;
-  background-color: $secondary;
+  background-color: $dark;
   padding: 18px 22px;
   border-radius: 15px;
   margin-top: 15px;
   margin-bottom: 15px;
+  border: solid 3px;
 }
 
 .dashboard-item a {

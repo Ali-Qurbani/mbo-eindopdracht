@@ -10,23 +10,26 @@ unset($_SESSION["dashboard-message"]);
 include("_connect_db.php");
 $id = $_GET["id"];
 
-$stmt = $conn->prepare("SELECT `icon_src` FROM `coins` WHERE id = '$id'");
-$stmt->execute();
-$stmt->bind_result($db_image_src);
-while (mysqli_stmt_fetch($stmt)) {
-    $old_img_src = $db_image_src;
-}
+$statement = $db->query("SELECT `icon_src` FROM `coins` WHERE id = '$id'");
+$result = $statement->fetch();
 
-$file_pointer = $old_img_src;
-if (!unlink($file_pointer)) {
-    echo 'File deletion error';
+if (empty($result)) {
+    header("Location: /dashboard.php");
     return false;
 }
 
-$stmt2 = $conn->prepare("DELETE FROM `coins` WHERE id = ?");
-$stmt2->bind_param("s", $id);
-$stmt2->execute();
-$stmt2->close();
+$file_pointer = $result['icon_src'];
+if (!unlink($file_pointer)) {
+    $_SESSION['dashboard-alert-type'] = 'error';
+    $_SESSION['dashboard-message'] = 'File deletion error.';
+    header("Location: /dashboard.php");
+    return false;
+}
+
+    $statement = "DELETE FROM `coins` WHERE id = :id";
+    $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+    $sth->execute(array('id' => $id));
+
 
 $_SESSION['dashboard-alert-type'] = 'success';
 $_SESSION['dashboard-message'] = 'Coin successfully removed.';
