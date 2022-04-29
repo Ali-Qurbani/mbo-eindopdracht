@@ -3,9 +3,7 @@ date_default_timezone_set('Europe/Amsterdam');
 
 function sanitize($raw_data): string
 {
-    global $conn;
     $data = htmlspecialchars($raw_data);
-    $data = mysqli_real_escape_string($conn, $data);
     return trim($data);
 }
 
@@ -14,25 +12,6 @@ function use_template($name, $email, $tel, $comment) {
     $template_vars = ['<!!!---][ name ][---!!!>', '<!!!---][ mail ][---!!!>', '<!!!---][ tel ][---!!!>', '<!!!---][ message ][---!!!>'];
     $vars = [$name, $email, $tel, $comment];
     return str_replace($template_vars, $vars, $mail_template);
-}
-
-function use_pw_reset_template($url) {
-    $mail_template = file_get_contents("../../pw_reset_mail_template.html");
-    return str_replace('<!!!---][ url ][---!!!>', $url, $mail_template);
-}
-
-function mk_password_hash_from_microtime(): array
-{
-    $mut = microtime();
-    $time = explode(" ", $mut);
-    $password = $time[1] * $time[0] * 1000000;
-    $password_hash = password_hash($password, PASSWORD_BCRYPT);
-    $one_hour = mktime(1, 0,0, 1, 1, 1970);
-    $date_formatted = date("d-m-y", ($time[1] + $one_hour));
-    $time_formatted = date("h:i:s", ($time[1] + $one_hour));
-    return array("password_hash" => $password_hash,
-        "date"          => $date_formatted,
-        "time"          => $time_formatted);
 }
 
 function get_db_slide_info($db) {
@@ -44,7 +23,7 @@ function get_db_slide_info($db) {
 function get_db_coin_info($db) {
     $statement = $db->query("SELECT `id`, `icon_src`, `name`, `price`, `visibility`, `last_updated` FROM `coins` ORDER BY `visibility` DESC");
 
-    return $coins = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function now(): string
@@ -70,5 +49,5 @@ function update_prices($db) {
 function crypto_calculator_prices($db) {
     $statement = $db->query("SELECT `icon_src`, `name`, `price` FROM `coins` WHERE `visibility` = '1'");
 
-    return $coins = $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $statement->fetchAll(PDO::FETCH_ASSOC);
 }
