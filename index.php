@@ -61,7 +61,7 @@ include_once 'resources/php/_functions.php';
             <div class="collapsible-content">
                 <div class="pt-3">
                     <p>
-                        This website sends a request every 5 minutes to the Binance api to update the prices
+                        The website updates the prices every 5 minutes.
                     </p>
                 </div>
             </div>
@@ -100,7 +100,7 @@ include_once 'resources/php/_functions.php';
     </div>
 </div>
 <div class="bg-secondary">
-    <div class="container">
+    <div class="container pt-5">
         <div id="crypto-calculator" class="text-center p-4 bg-light mb-5 border-top border-primary border-3">
             <h2 class="text-primary">Crypto Calculator</h2>
             <div class="row">
@@ -141,10 +141,10 @@ include_once 'resources/php/_functions.php';
         <div class="mt-5">
             <div class="row">
                 <div class="col text-center p-5">
-                    <i class="far big-icon text-primary fa-question-circle"></i>
+                    <i class="far big-icon text-white fa-question-circle"></i>
                 </div>
                 <div class="col">
-                    <h2 class="text-primary">Any questions?</h2>
+                    <h2 class="text-white">Any questions?</h2>
                     <p>Feel free to contact us</p>
                     <div class="row">
                         <div class="col-5">

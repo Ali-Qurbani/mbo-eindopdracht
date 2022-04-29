@@ -8,7 +8,7 @@ if (!isset($_SESSION["id"])) {
 if (empty($_POST)) {
     $_SESSION['dashboard-alert-type'] = 'error';
     $_SESSION['dashboard-message'] = 'One or more required fields are empty.';
-    header("Location: /dashboard.php");
+    header("Location: /admin_account.php");
     return false;
 } else {
     include_once '_connect_db.php';
@@ -28,7 +28,7 @@ if (empty($_POST)) {
         } else {
             $_SESSION['dashboard-alert-type'] = 'error';
             $_SESSION['dashboard-message'] = 'New passwords did not match.';
-            header("Location: /dashboard.php");
+            header("Location: /admin_account.php");
             return false;
         }
     }
@@ -72,5 +72,5 @@ if (empty($_POST)) {
 
     $_SESSION['dashboard-alert-type'] = 'success';
     $_SESSION['dashboard-message'] = 'Changes successfully saved.';
-    header("Location: /dashboard.php");
+    header("Location: /admin_account.php");
 }

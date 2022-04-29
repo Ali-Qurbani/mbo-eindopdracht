@@ -19,7 +19,7 @@ $file_pointer = $img_src['image_src'];
 if (!unlink($file_pointer)) {
     $_SESSION['dashboard-alert-type'] = 'error';
     $_SESSION['dashboard-message'] = 'File deletion error.';
-    header("Location: /dashboard.php");
+    header("Location: /admin_sliders.php");
     return false;
 }
 
@@ -29,4 +29,4 @@ $sth2->execute(array('id' => $id));
 
 $_SESSION['dashboard-alert-type'] = 'success';
 $_SESSION['dashboard-message'] = 'Slider successfully removed.';
-header("Location: /dashboard.php");
+header("Location: /admin_sliders.php");

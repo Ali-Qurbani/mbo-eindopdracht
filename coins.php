@@ -13,7 +13,7 @@ include_once 'resources/php/_functions.php';
 <body>
 <?php include_once '_partials/_navbar.php' ?>
 
-<div class="container p-5">
+<div class="container page-content p-5">
     <div class="row coin-row">
         <?php
 

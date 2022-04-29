@@ -6,7 +6,7 @@ if (!isset($_SESSION["id"])) {
 }
 
 if (empty($_POST)) {
-    header("Location: /dashboard.php");
+    header("Location: /admin_sliders.php");
     return false;
 } else {
     unset($_SESSION["dashboard-alert-type"]);
@@ -27,17 +27,17 @@ if (empty($_POST)) {
     if (!is_uploaded_file($_FILES ['picture'] ['tmp_name'])) {
         $_SESSION['dashboard-alert-type'] = 'error';
         $_SESSION['dashboard-message'] = 'No image found.';
-        header("Location: /dashboard.php");
+        header("Location: /admin_sliders.php");
         return false;
     } else {
         $unique_filename = time() . uniqid(rand());
 
         $filename = $_FILES['picture']['name'];
 
-        $statement = 'SELECT `id` from `slider-images` where id = :id';
-        $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-        $sth->execute(array('id' => $unique_filename));
-        $slider_result = $sth->fetch();
+        $statement2 = 'SELECT `id` from `slider-images` where id = :id';
+        $sth2 = $db->prepare($statement2, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $sth2->execute(array('id' => $unique_filename));
+        $slider_result = $sth2->fetch();
 
         if (isset($slider_result['id'])) {
             header('Location: /addslider.php?title=' . $title . '&description=' . $description);
@@ -65,12 +65,20 @@ if (empty($_POST)) {
         }
     }
 
-    $statement2 = 'INSERT INTO `slider-images` (`id`, `image_src`, `title`, `description`, `visibility`) 
+    try {
+        $statement3 = 'INSERT INTO `slider-images` (`id`, `image_src`, `title`, `description`, `visibility`) 
                     VALUES (NULL, :target, :title, :description, :visibility);';
-    $sth = $db->prepare($statement2, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-    $sth->execute(array('target' => $target, 'title' => $title, 'description' => $description, 'visibility' => $visibility));
+        $sth3 = $db->prepare($statement3, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+        $sth3->execute(array('target' => $target, 'title' => $title, 'description' => $description, 'visibility' => $visibility));
+    } catch (PDOException $e) {
+        unlink($target);
+        $_SESSION['dashboard-alert-type'] = 'error';
+        $_SESSION['dashboard-message'] = 'Something went wrong storing the slider into the database. '.$target.' '.$e;
+        header("Location: /admin_sliders.php");
+        return false;
+    }
 
     $_SESSION['dashboard-alert-type'] = 'success';
     $_SESSION['dashboard-message'] = 'Slider successfully added.';
-    header("Location: /dashboard.php");
+    header("Location: /admin_sliders.php");
 }

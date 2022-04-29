@@ -1,7 +1,6 @@
 <footer id="footer" class="bg-light">
     <div class="container p-4">
         <div class="row">
-            <hr class="my-4">
             <div class="col-md">
                 <div class="row">
                     <div class="col">

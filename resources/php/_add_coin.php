@@ -6,7 +6,7 @@ if (!isset($_SESSION["id"])) {
 }
 
 if (empty($_POST)) {
-    header("Location: /dashboard.php");
+    header("Location: /admin_coins.php");
     return false;
 } else {
     unset($_SESSION["dashboard-alert-type"]);
@@ -30,14 +30,14 @@ if (empty($_POST)) {
     if (!isset($price)) {
         $_SESSION['dashboard-alert-type'] = 'error';
         $_SESSION['dashboard-message'] = 'Unable to find price with given symbol.';
-        header("Location: /dashboard.php");
+        header("Location: /admin_coins.php");
         return false;
     }
 
     if (!is_uploaded_file($_FILES ['picture'] ['tmp_name'])) {
         $_SESSION['dashboard-alert-type'] = 'error';
         $_SESSION['dashboard-message'] = 'No image found.';
-        header("Location: /dashboard.php");
+        header("Location: /admin_coins.php");
         return false;
     } else {
         $statement = $db->prepare("SELECT COUNT(id) FROM `coins` WHERE `id` = :id");
@@ -48,7 +48,7 @@ if (empty($_POST)) {
         if ($count['COUNT(id)'] >= '1') {
             $_SESSION['dashboard-alert-type'] = 'error';
             $_SESSION['dashboard-message'] = 'Symbol already exists in the database.';
-            header("Location: /dashboard.php");
+            header("Location: /admin_coins.php");
             return false;
         }
 
@@ -70,5 +70,5 @@ if (empty($_POST)) {
 
     $_SESSION['dashboard-alert-type'] = 'success';
     $_SESSION['dashboard-message'] = 'Coin successfully added.';
-    header("Location: /dashboard.php");
+    header("Location: /admin_coins.php");
 }

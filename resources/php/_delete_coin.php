@@ -14,7 +14,7 @@ $statement = $db->query("SELECT `icon_src` FROM `coins` WHERE id = '$id'");
 $result = $statement->fetch();
 
 if (empty($result)) {
-    header("Location: /dashboard.php");
+    header("Location: /admin_coins.php");
     return false;
 }
 
@@ -22,7 +22,7 @@ $file_pointer = $result['icon_src'];
 if (!unlink($file_pointer)) {
     $_SESSION['dashboard-alert-type'] = 'error';
     $_SESSION['dashboard-message'] = 'File deletion error.';
-    header("Location: /dashboard.php");
+    header("Location: /admin_coins.php");
     return false;
 }
 
@@ -33,4 +33,4 @@ if (!unlink($file_pointer)) {
 
 $_SESSION['dashboard-alert-type'] = 'success';
 $_SESSION['dashboard-message'] = 'Coin successfully removed.';
-header("Location: /dashboard.php");
+header("Location: /admin_coins.php");

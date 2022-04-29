@@ -11541,7 +11541,20 @@ body {
   padding-top: 25px;
   padding-bottom: 25px;
   z-index: 55;
+  transition: all 420ms ease-in-out;
   flex-wrap: wrap !important;
+}
+
+.sticky-top {
+  position: fixed;
+}
+
+.nav-catcher {
+  height: 225px;
+}
+
+.page-content {
+  min-height: 100vh;
 }
 
 #crypto-price-line {
@@ -11681,7 +11694,6 @@ body {
 
 .avatar {
   width: 100%;
-  border: solid 4px grey;
 }
 
 .slider_div {

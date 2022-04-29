@@ -6,7 +6,7 @@ if (!isset($_SESSION["id"])) {
 }
 
 if (empty($_POST) || empty($_POST['symbol'])) {
-    header("Location: /dashboard.php");
+    header("Location: /admin_coins.php");
     return false;
 } else {
     include_once '_connect_db.php';
@@ -65,5 +65,5 @@ if (empty($_POST) || empty($_POST['symbol'])) {
 
     $_SESSION['dashboard-alert-type'] = 'success';
     $_SESSION['dashboard-message'] = 'Changes successfully saved.';
-    header("Location: /dashboard.php");
+    header("Location: /admin_coins.php");
 }
