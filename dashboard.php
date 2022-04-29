@@ -20,10 +20,10 @@ include_once 'resources/php/_functions.php';
 
 
 <div class="row w-100">
-    <div class="col-2">
+    <div class="col col-sm-5 col-md-4 col-xl-3">
         <?php include_once '_partials/_sidebar.php' ?>
     </div>
-    <div class="col">
+    <div class="col-sm-6 col-xl">
         <div class="container p-5">
             <div class="my-4">
                 <?php
@@ -107,7 +107,7 @@ include_once 'resources/php/_functions.php';
                                 <div class="col-xl text-light">
                                     <span class="fw-bold"><?php echo $coin['id'] ?></span><hr>
                                     <span class="fw-bold"><?php echo $coin['name'] ?></span><br>
-                                    <span class="fw-bold">Rounded: </span><span class="text-secondary fw-bold">$ <?php echo round($coin['price'], 2) ?></span>
+                                    <span class="fw-bold">Rounded: </span><span class="text-secondary fw-bold">$ <?php echo number_format($coin['price'], 2) ?></span>
                                     <span class="fw-bold">Full price: </span><span class="text-secondary fw-bold">$ <?php echo $coin['price'] ?></span>
                                 </div>
                                 <div class="col-xl-2">
@@ -122,7 +122,11 @@ include_once 'resources/php/_functions.php';
                                     $min = $interval->days * 24 * 60;
                                     $min += $interval->h * 60;
                                     $min += $interval->i;
-                                    echo $interval->format($min.' minutes and %s seconds ago');
+                                    if ($min < 60) {
+                                        echo $interval->format($min . ' minutes and %s seconds ago');
+                                    } else {
+                                        echo '>60 minutes ago';
+                                    }
                                     ?>
                                     </span>
                                 </div>

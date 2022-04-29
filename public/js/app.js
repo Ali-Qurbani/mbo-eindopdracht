@@ -3245,7 +3245,7 @@ $('#crypto-price-line .owl-carousel').owlCarousel({
 $('.home-owl-carousel').owlCarousel({
   loop: true,
   autoplay: true,
-  nav: false,
+  nav: true,
   dots: false,
   responsive: {
     0: {
@@ -3392,6 +3392,60 @@ if (contact_form) {
   });
   var $fa_warning = "<i class='fa-solid fa-triangle-exclamation' aria-hidden='true'></i>";
   document.getElementById("form-button").addEventListener("click", validateForm);
+} // Crypto calculator script
+
+
+var crypto_calculator = document.getElementById("crypto-calculator");
+
+if (crypto_calculator) {
+  var calc_update = function calc_update() {
+    left_icon.src = left_select.options[left_select.selectedIndex].id;
+    left_input.value = 1;
+    right_input.value = left_select.value;
+    left_help.innerHTML = '1 ' + left_select.options[left_select.selectedIndex].innerHTML + ' is ' + left_select.options[left_select.selectedIndex].value + ' Tether';
+    right_help.innerHTML = '1 ' + 'Tether' + ' is ' + 1 / left_select.options[left_select.selectedIndex].value + ' ' + left_select.options[left_select.selectedIndex].innerHTML;
+  };
+
+  var calc_update_left = function calc_update_left() {
+    var coin_to_usdt = left_select.options[left_select.selectedIndex].value;
+    left_input.value = right_input.value / coin_to_usdt;
+  };
+
+  var calc_update_right = function calc_update_right() {
+    var coin_to_usdt = left_select.options[left_select.selectedIndex].value;
+    right_input.value = left_input.value * coin_to_usdt;
+  };
+
+  var left_icon = document.getElementById('calc-1-icon');
+  var left_input = document.getElementById('calc-inp-1');
+  var left_select = document.getElementById('calc-left-select');
+  var left_help = document.getElementById('left-help');
+  var right_input = document.getElementById('calc-inp-2');
+  var right_help = document.getElementById('right-help');
+  left_select.addEventListener("change", calc_update);
+  left_input.addEventListener("input", calc_update_right);
+  right_input.addEventListener("input", calc_update_left);
+  calc_update();
+}
+
+$(".alert").fadeTo(2000, 500).slideUp(500, function () {
+  $(".alert").slideUp(500);
+}); // FAQ dropdowns
+
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function () {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+
+    if (content.style.maxHeight) {
+      content.style.maxHeight = null;
+    } else {
+      content.style.maxHeight = content.scrollHeight + "px";
+    }
+  });
 }
 
 /***/ }),

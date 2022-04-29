@@ -8,7 +8,7 @@ $email =    $_POST['email'];
 $tel =      $_POST['tel'];
 $comment =  $_POST['message'];
 
-$receiver = "admin@servername.nl";
+$receiver = "info@website.com";
 unset($_SESSION["contact_status"]);
 unset($_SESSION["contact_status_type"]);
 

@@ -40,6 +40,18 @@ if (empty($_POST)) {
         header("Location: /dashboard.php");
         return false;
     } else {
+        $statement = $db->prepare("SELECT COUNT(id) FROM `coins` WHERE `id` = :id");
+        $statement->execute(array('id' => $symbol));
+        $count = $statement->fetch(PDO::FETCH_ASSOC);
+
+
+        if ($count['COUNT(id)'] >= '1') {
+            $_SESSION['dashboard-alert-type'] = 'error';
+            $_SESSION['dashboard-message'] = 'Symbol already exists in the database.';
+            header("Location: /dashboard.php");
+            return false;
+        }
+
         $unique_filename = time() . uniqid(rand());
 
         $filename = $_FILES['picture']['name'];
@@ -51,9 +63,9 @@ if (empty($_POST)) {
         move_uploaded_file($_FILES['picture']['tmp_name'], $target);
     }
 
-    $statement = 'INSERT INTO `coins` (`id`, `icon_src`, `name`, `price`, `visibility`, `last_updated`) 
+    $statement2 = 'INSERT INTO `coins` (`id`, `icon_src`, `name`, `price`, `visibility`, `last_updated`) 
     VALUES (:symbol, :target, :name, :price, :visibility, :last_update);';
-    $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+    $sth = $db->prepare($statement2, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
     $sth->execute(array('symbol' => $symbol, 'target' => $target, 'name' => $name, 'price' => $price, 'visibility' => $visibility, 'last_update' => now()));
 
     $_SESSION['dashboard-alert-type'] = 'success';

@@ -14,7 +14,7 @@ include_once 'resources/php/_functions.php';
 <?php include_once '_partials/_navbar.php' ?>
 
 <div class="container p-5">
-    <div class="row">
+    <div class="row coin-row">
         <?php
 
         $statement = $db->query("SELECT * FROM `coins` WHERE `visibility` = '1'");
@@ -23,17 +23,17 @@ include_once 'resources/php/_functions.php';
 
         foreach ($coins as $coin) {
             ?>
-            <div class="col-md-6">
-                <div class="row bg-light border m-0 p-2" id="<?php echo $coin['name'] ?>">
+            <a class="col-md-6 mt-2 text-decoration-none" href="https://www.binance.com/en/trade/<?php echo $coin['id'] ?>" target="_blank">
+                <div class="row border m-0 p-2 coin-card" id="<?php echo $coin['name'] ?>">
                     <div class="col-3">
                         <img src="<?php echo $coin['icon_src'] ?>" class="img-thumbnail" width="40" alt="<?php echo $coin['name'] ?> icon">
                     </div>
                     <div class="col">
-                        <span class="text-primary fw-bolder"><?php echo $coin['name'] . '<br>'; ?></span>
-                        <span>$<?php echo $coin['price'] ?></span>
+                        <span class="text-secondary fw-bolder"><?php echo $coin['name'] . '<br>'; ?></span>
+                        <span>$<?php echo $coin['price'] ?></span><br>
                     </div>
                 </div>
-            </div>
+            </a>
             <?php
         }
         ?>

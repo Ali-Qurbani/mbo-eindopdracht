@@ -37,6 +37,8 @@ if (isset($_SESSION["id"]) || empty($_POST)) {
             // password matched
             unset($_SESSION['attempt']);
             $_SESSION["id"] = $userid;
+            $_SESSION['dashboard-alert-type'] = 'success';
+            $_SESSION['dashboard-message'] = 'Successfully logged in.';
             header("Location: ../../dashboard.php");
         } else {
             // password didn't match or db failed

@@ -31,7 +31,7 @@ $('#crypto-price-line .owl-carousel').owlCarousel({
 $('.home-owl-carousel').owlCarousel({
     loop: true,
     autoplay: true,
-    nav: false,
+    nav: true,
     dots: false,
     responsive:{
         0:{
@@ -169,4 +169,59 @@ if (contact_form) {
             document.getElementById("contact_form").submit();
         }
     }
+}
+
+// Crypto calculator script
+let crypto_calculator = document.getElementById("crypto-calculator")
+if (crypto_calculator) {
+    let left_icon = document.getElementById('calc-1-icon');
+    let left_input = document.getElementById('calc-inp-1');
+    let left_select = document.getElementById('calc-left-select');
+    let left_help = document.getElementById('left-help')
+
+    let right_input = document.getElementById('calc-inp-2');
+    let right_help = document.getElementById('right-help')
+
+    left_select.addEventListener("change", calc_update)
+    left_input.addEventListener("input", calc_update_right)
+    right_input.addEventListener("input", calc_update_left)
+
+    function calc_update() {
+        left_icon.src = left_select.options[left_select.selectedIndex].id;
+        left_input.value = 1;
+        right_input.value = left_select.value;
+        left_help.innerHTML = '1 ' + left_select.options[left_select.selectedIndex].innerHTML + ' is ' + left_select.options[left_select.selectedIndex].value + ' Tether';
+        right_help.innerHTML = '1 ' + 'Tether' + ' is ' + 1 / left_select.options[left_select.selectedIndex].value + ' ' + left_select.options[left_select.selectedIndex].innerHTML;
+    }
+    calc_update()
+
+    function calc_update_left() {
+        let coin_to_usdt = left_select.options[left_select.selectedIndex].value;
+        left_input.value = right_input.value / coin_to_usdt;
+    }
+
+    function calc_update_right() {
+        let coin_to_usdt = left_select.options[left_select.selectedIndex].value;
+        right_input.value = left_input.value * coin_to_usdt;
+    }
+}
+
+$(".alert").fadeTo(2000, 500).slideUp(500, function(){
+    $(".alert").slideUp(500);
+});
+
+// FAQ dropdowns
+let coll = document.getElementsByClassName("collapsible");
+let i;
+
+for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        let content = this.nextElementSibling;
+        if (content.style.maxHeight){
+            content.style.maxHeight = null;
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+        }
+    });
 }

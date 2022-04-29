@@ -18,7 +18,20 @@ if (empty($_POST)) {
 
     $username = $_POST['username'];
     $email = $_POST['email'];
-//    $password = $_POST['password'];
+
+    if (isset($_POST['password']) && isset($_POST['new_password_1']) && isset($_POST['new_password_2'])) {
+        $password = $_POST['password'];
+        $new_password_1 = $_POST['new_password_1'];
+        $new_password_2 = $_POST['new_password_2'];
+        if ($new_password_1 === $new_password_2) {
+            $password = password_hash($new_password_1, PASSWORD_BCRYPT);
+        } else {
+            $_SESSION['dashboard-alert-type'] = 'error';
+            $_SESSION['dashboard-message'] = 'New passwords did not match.';
+            header("Location: /dashboard.php");
+            return false;
+        }
+    }
 
     if (!is_uploaded_file($_FILES ['picture'] ['tmp_name'])) {
         $statement = 'UPDATE `users` SET 
@@ -52,23 +65,12 @@ if (empty($_POST)) {
             return false;
         }
 
-        $statement = "UPDATE `users` SET `img_src` = :img_src, `username` = :username, `email` = :email WHERE `users`.`id` = :id";
+        $statement = "UPDATE `users` SET `img_src` = :img_src, `username` = :username, `password` = :password, `email` = :email WHERE `users`.`id` = :id";
         $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-        $sth->execute(array('img_src' => $target, 'username' => $username, 'email' => $email, 'id' => $user_id));
-
-//
-//        $statement = 'UPDATE `users` SET
-//                           `img_src` = :img_src,
-//                           `username` = :username,
-//                           `email` = :email,
-//                           `password` = :password
-//                            WHERE `users`.`id` = :id;';
-//        $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-//        $sth->execute(array('img_src' => $target, 'username' => $username, 'email' => $email, 'password' => $password, 'id' => $id));
-
+        $sth->execute(array('img_src' => $target, 'username' => $username, 'email' => $email, 'password' => $password, 'id' => $user_id));
     }
 
     $_SESSION['dashboard-alert-type'] = 'success';
-    $_SESSION['dashboard-message'] = 'Accountinfo successfully updated.';
+    $_SESSION['dashboard-message'] = 'Changes successfully saved.';
     header("Location: /dashboard.php");
 }

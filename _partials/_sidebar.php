@@ -24,7 +24,7 @@ $user = $statement->fetch(PDO::FETCH_ASSOC);
         <hr>
         <a href="resources/php/_logout.php">
             <button type="button" class="btn btn-outline-secondary mt-3 w-100">
-                Logout
+                <i class="fas fa-sign-out-alt"></i> Logout
             </button>
         </a>
     </div>

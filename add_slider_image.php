@@ -23,6 +23,12 @@ include_once 'resources/php/_functions.php';
     </div>
     <div class="col">
         <div class="container p-5">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Add slider</li>
+                </ol>
+            </nav>
             <form action="/resources/php/_add_slider.php" method="post" enctype="multipart/form-data">
                 <div class="my-3">
                     <label for="picture" class="form-label">Icon</label>

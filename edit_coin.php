@@ -37,6 +37,12 @@ if (empty($_GET['id'])) {
     </div>
     <div class="col">
         <div class="container p-5">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit coin</li>
+                </ol>
+            </nav>
             <form action="/resources/php/_edit_coin.php" method="post" enctype="multipart/form-data">
                 <div class="d-none">
                     <input class="form-control" type="text" value="<?php echo $current_coin['id']; ?>" aria-label="old_id" name="old_id" readonly>

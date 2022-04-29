@@ -30,7 +30,7 @@ if(isset($_SESSION['attempt_again'])){
 <body>
 <?php include_once '_partials/_navbar.php' ?>
 
-<div class="container w-25 mt-5">
+<div class="container w-25 my-5">
     <?php
     if(isset($_SESSION['login-error'])){
         ?>
@@ -60,3 +60,7 @@ if(isset($_SESSION['attempt_again'])){
         <button type="submit" class="btn btn-outline-primary">Login</button>
     </form>
 </div>
+
+<?php include_once '_partials/_footer.php' ?>
+</body>
+</html>

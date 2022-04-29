@@ -64,6 +64,6 @@ if (empty($_POST) || empty($_POST['symbol'])) {
     }
 
     $_SESSION['dashboard-alert-type'] = 'success';
-    $_SESSION['dashboard-message'] = 'Coin successfully edited.';
+    $_SESSION['dashboard-message'] = 'Changes successfully saved.';
     header("Location: /dashboard.php");
 }

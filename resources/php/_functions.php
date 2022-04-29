@@ -66,3 +66,9 @@ function update_prices($db) {
         $sth->execute(array('price' => $data['price'], 'id' => $coin['id'], 'last_update' => now()));
     }
 }
+
+function crypto_calculator_prices($db) {
+    $statement = $db->query("SELECT `icon_src`, `name`, `price` FROM `coins` WHERE `visibility` = '1'");
+
+    return $coins = $statement->fetchAll(PDO::FETCH_ASSOC);
+}

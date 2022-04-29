@@ -1,4 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="text-center w-100">
+        <a class="bg-primary text-dark" href="/">
+            <img src="https://via.placeholder.com/100x100" class="img-fluid" alt="Placeholder, please replace!">
+        </a>
+    </div>
     <div class="container-fluid">
         <button class="navbar-toggler w-100" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -13,7 +18,8 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbar_account_dropdown">
                             <li><a class="dropdown-item text-secondary" href="/dashboard.php">Dashboard</a></li>
-                            <li><a class="dropdown-item text-secondary" href="/resources/php/_logout.php">Logout</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-secondary" href="/resources/php/_logout.php"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
                         </ul>
                     </div>
                     <?php
@@ -22,16 +28,15 @@
                 }
                 ?>
             </div>
-<!--            <a class="bg-primary" href="#">Navbar</a>-->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home</a>
+                    <a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="coins.php">Coins</a>
+                    <a class="nav-link" href="coins.php"><i class="fab fa-bitcoin"></i> Coins</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.php">Contact</a>
+                    <a class="nav-link" href="contact.php"><i class="fas fa-envelope"></i> Contact</a>
                 </li>
             </ul>
         </div>
@@ -58,10 +63,10 @@
                 <a class="text-decoration-none text-black" href="coins.php#<?php echo $coin['name'] ?>">
                     <div class="row slider_div">
                         <div class="col-3">
-                            <img src="<?php echo $coin['icon_src'] ?>" width="20" height="20" alt="<?php echo $coin['name'] ?>">
+                            <img src="<?php echo $coin['icon_src'] ?>" width="25" height="25" alt="<?php echo $coin['name'] ?>">
                         </div>
                         <div class="col-4">
-                            <span class="fw-bold">$<?php echo $coin['price'] ?></span>
+                            <span class="fw-bold">$<?php echo number_format($coin['price'], 2) ?></span>
                         </div>
                     </div>
                 </a>

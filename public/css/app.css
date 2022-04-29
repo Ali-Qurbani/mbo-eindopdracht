@@ -11541,6 +11541,7 @@ body {
   padding-top: 25px;
   padding-bottom: 25px;
   z-index: 55;
+  flex-wrap: wrap !important;
 }
 
 #crypto-price-line {
@@ -11573,8 +11574,8 @@ body {
 
 .sidebar {
   padding: 25px 25px;
-  box-shadow: 5px 0 5px -3px rgba(0, 0, 0, 0.7);
-  height: 100vh;
+  box-shadow: 3px 0 5px -3px rgba(0, 0, 0, 0.7);
+  height: 100%;
   width: 250px;
 }
 
@@ -11583,6 +11584,21 @@ body {
   border: none;
   background-color: #fafafa;
   border-bottom: 2px solid #5fcdf0;
+}
+
+.owl-prev, .owl-next {
+  position: absolute;
+  top: 150px;
+  font-size: 2.5em !important;
+  color: #5fcdf0;
+}
+
+.owl-prev {
+  left: 15px;
+}
+
+.owl-next {
+  right: 15px;
 }
 
 .btn {
@@ -11628,6 +11644,25 @@ body {
     border-color: #d92905;
   }
 }
+.coin-row {
+  align-items: center;
+}
+
+.coin-card {
+  background-color: #fafafa;
+  transition: all 420ms ease-in-out;
+}
+
+.coin-card:hover {
+  background-color: #4766f8;
+  color: #fafafa;
+}
+
+.big-icon {
+  color: #4766f8;
+  font-size: 10.5em;
+}
+
 .dashboard-item {
   position: relative;
   background-color: #212529;
@@ -11642,6 +11677,92 @@ body {
   text-decoration: none;
   color: #4766f8;
   font-weight: bolder;
+}
+
+.avatar {
+  width: 100%;
+  border: solid 4px grey;
+}
+
+.slider_div {
+  padding: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.owl-carousel .owl-item {
+  max-height: 500px;
+}
+
+.slider-text {
+  position: absolute;
+  text-align: center;
+  top: 180px;
+  left: 0;
+  right: 0;
+  font-weight: bold;
+}
+
+.alert {
+  position: fixed;
+  top: 55px;
+  z-index: 55;
+  margin: auto;
+  left: 0;
+  right: 0;
+  width: 80%;
+  border-radius: revert;
+}
+
+/*faq*/
+.collapsible:after {
+  content: "+";
+  float: right;
+  font-size: 1em;
+}
+
+.collapsible.active:after {
+  content: "−";
+  font-size: 1em;
+}
+
+.collapsible {
+  background-color: #4766f8;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  overflow: hidden;
+}
+
+.collapsible:hover {
+  background-color: #4766f8;
+  color: #5fcdf0;
+}
+
+.collapsible-content {
+  color: white;
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 220ms ease-in-out;
+  background-color: #3552d3;
+  margin-bottom: 10px;
+  border-bottom: solid 2px #5fcdf0;
+}
+
+#home-2 {
+  background: linear-gradient(#ffffff 10%, #5fcdf0 100%);
+  border-bottom: solid 2px #5fcdf0;
+  min-height: 300px;
+}
+
+#footer a {
+  text-decoration: none;
+  color: slategrey;
 }
 /*!
  * Font Awesome Free 5.1.0-9 by @fontawesome - https://fontawesome.com

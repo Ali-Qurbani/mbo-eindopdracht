@@ -31,7 +31,6 @@ if (empty($_POST) || empty($_POST['id'])) {
                             WHERE `slider-images`.`id` = :image_id;';
         $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
         $sth->execute(array('title' => $title, 'description' => $description, 'visibility' => $visibility, 'image_id' => $image_id));
-
     } else {
         $unique_filename = time() . uniqid(rand());
 
@@ -66,6 +65,6 @@ if (empty($_POST) || empty($_POST['id'])) {
     }
 
     $_SESSION['dashboard-alert-type'] = 'success';
-    $_SESSION['dashboard-message'] = 'Slider successfully edited.';
+    $_SESSION['dashboard-message'] = 'Changes successfully saved.';
     header("Location: /dashboard.php");
 }
