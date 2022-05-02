@@ -23,7 +23,7 @@ function get_db_slide_info($db) {
 function get_db_coin_info($db) {
     $statement = $db->query("SELECT `id`, `icon_src`, `name`, `price`, `visibility`, `last_updated` FROM `coins` ORDER BY `visibility` DESC");
 
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $statement->fetchAll(PDO::FETCH_OBJ);
 }
 
 function now(): string

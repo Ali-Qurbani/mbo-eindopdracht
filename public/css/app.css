@@ -11718,12 +11718,13 @@ body {
 .alert {
   position: fixed;
   top: 55px;
-  z-index: 55;
+  z-index: 9999;
   margin: auto;
   left: 0;
   right: 0;
   width: 80%;
   border-radius: revert;
+  text-align: center;
 }
 
 /*faq*/
