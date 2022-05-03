@@ -1,8 +1,12 @@
+<?php
+$page = $_SERVER['REQUEST_URI'];
+echo $page;
+?>
 <div class="fixed-top">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="text-center w-100">
             <a class="bg-primary text-dark" href="/">
-                <img src="https://via.placeholder.com/100x100" class="img-fluid" alt="Placeholder, please replace!">
+                <img src="https://via.placeholder.com/100x100" width="60" class="img-fluid" alt="Placeholder, please replace!">
             </a>
         </div>
         <div class="container-fluid">
@@ -31,13 +35,13 @@
                 </div>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a>
+                        <a class="nav-link <?php if ($page === '/') echo 'active' ?>" href="/"><i class="fas fa-home"></i> Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="coins.php"><i class="fab fa-bitcoin"></i> Coins</a>
+                        <a class="nav-link <?php if ($page === '/coins.php') echo 'active' ?>" href="coins.php"><i class="fab fa-bitcoin"></i> Coins</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.php"><i class="fas fa-envelope"></i> Contact</a>
+                        <a class="nav-link <?php if ($page === '/contact.php') echo 'active' ?>" href="contact.php"><i class="fas fa-envelope"></i> Contact</a>
                     </li>
                 </ul>
             </div>
