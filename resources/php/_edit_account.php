@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["id"])) {
-    header("Location: /_login.php");
+    header("Location: /login.php");
     return false;
 }
 
@@ -19,8 +19,18 @@ if (empty($_POST)) {
     $username = $_POST['username'];
     $email = $_POST['email'];
 
-    if (isset($_POST['password']) && isset($_POST['new_password_1']) && isset($_POST['new_password_2'])) {
+    if (!empty($_POST['password']) || !empty($_POST['new_password_1']) || !empty($_POST['new_password_2'])) {
+        $statement = $db->query("SELECT `password` FROM `users` WHERE `id` = '$user_id'");
+        $id_und_pw = $statement->fetch(PDO::FETCH_OBJ);
         $password = $_POST['password'];
+
+        if (!password_verify($password, $id_und_pw->password)) {
+            $_SESSION['dashboard-alert-type'] = 'error';
+            $_SESSION['dashboard-message'] = 'Old password did not match.';
+            header("Location: /admin_account.php");
+            return false;
+        }
+
         $new_password_1 = $_POST['new_password_1'];
         $new_password_2 = $_POST['new_password_2'];
         if ($new_password_1 === $new_password_2) {
@@ -34,14 +44,22 @@ if (empty($_POST)) {
     }
 
     if (!is_uploaded_file($_FILES ['picture'] ['tmp_name'])) {
-        $statement = 'UPDATE `users` SET 
+        if (isset($password)) {
+            $statement = 'UPDATE `users` SET 
                            `username` = :username, 
                            `email` = :email,    
                            `password` = :password
                             WHERE `users`.`id` = :id;';
-        $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-        $sth->execute(array('username' => $username, 'email' => $email, 'password' => $password, 'id' => $user_id));
-
+            $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+            $sth->execute(array('username' => $username, 'email' => $email, 'password' => $password, 'id' => $user_id));
+        } else {
+            $statement = 'UPDATE `users` SET 
+                           `username` = :username, 
+                           `email` = :email
+                            WHERE `users`.`id` = :id;';
+            $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+            $sth->execute(array('username' => $username, 'email' => $email, 'id' => $user_id));
+        }
     } else {
         $unique_filename = time() . uniqid(rand());
 
@@ -58,16 +76,22 @@ if (empty($_POST)) {
         $target = '../../public/images/' . $unique_filename . '.' . $ext;
         move_uploaded_file($_FILES['picture']['tmp_name'], $target);
 
-        // Delete the previous coin image from the disk
+        // Delete the previous picture from the disk
         $file_pointer = $old_img['img_src'];
         if (!unlink($file_pointer)) {
             echo 'File deletion error';
             return false;
         }
 
-        $statement = "UPDATE `users` SET `img_src` = :img_src, `username` = :username, `password` = :password, `email` = :email WHERE `users`.`id` = :id";
-        $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-        $sth->execute(array('img_src' => $target, 'username' => $username, 'email' => $email, 'password' => $password, 'id' => $user_id));
+        if (isset($password)) {
+            $statement = "UPDATE `users` SET `img_src` = :img_src, `username` = :username, `password` = :password, `email` = :email WHERE `users`.`id` = :id";
+            $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+            $sth->execute(array('img_src' => $target, 'username' => $username, 'email' => $email, 'password' => $password, 'id' => $user_id));
+        } else {
+            $statement = "UPDATE `users` SET `img_src` = :img_src, `username` = :username, `email` = :email WHERE `users`.`id` = :id";
+            $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
+            $sth->execute(array('img_src' => $target, 'username' => $username, 'email' => $email, 'id' => $user_id));
+        }
     }
 
     $_SESSION['dashboard-alert-type'] = 'success';

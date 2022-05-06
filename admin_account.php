@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["id"])) {
-    header("Location: /_login.php");
+    header("Location: /login.php");
     return false;
 }
 include_once 'resources/php/_connect_db.php';
@@ -21,14 +21,18 @@ $account = $statement->fetch(PDO::FETCH_OBJ);
 <body>
 <?php include_once '_partials/_navbar.php' ?>
 
-
-<div class="row w-100">
-    <div class="col col-sm-5 col-md-4 col-xl-2">
-        <?php include_once '_partials/_sidebar.php' ?>
-    </div>
-    <div class="col-sm-6 col-xl">
-        <div class="container p-5">
-            <img width="200" src="<?php echo $account->img_src; ?>" alt="Profile picture">
+<div class="wrapper">
+    <?php include_once '_partials/_sidebar.php' ?>
+    <!-- Page Content  -->
+    <div id="content">
+        <div class="container my-5">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="dashboard.php">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Account</li>
+                </ol>
+            </nav>
+            <img width="200" class="mb-3" src="<?php echo $account->img_src; ?>" alt="Profile picture">
 
             <h3>
                 <?php echo $account->username; ?>

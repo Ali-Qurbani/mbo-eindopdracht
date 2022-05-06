@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["id"])) {
-    header("Location: /_login.php");
+    header("Location: /login.php");
     return false;
 }
 include_once 'resources/php/_connect_db.php';
@@ -17,11 +17,10 @@ include_once 'resources/php/_functions.php';
 <body>
 <?php include_once '_partials/_navbar.php' ?>
 
-<div class="row w-100">
-    <div class="col col-sm-5 col-md-4 col-xl-2">
-        <?php include_once '_partials/_sidebar.php' ?>
-    </div>
-    <div class="col-sm-6 col-xl">
+<div class="wrapper">
+    <?php include_once '_partials/_sidebar.php' ?>
+    <!-- Page Content  -->
+    <div id="content">
         <div class="container p-5">
             <div class="my-4">
                 <h2>Coins</h2>
@@ -100,26 +99,66 @@ include_once 'resources/php/_functions.php';
                     </thead>
                     <tbody>
                     <?php
-                        $statement = $db->query("SELECT `id`, `name` FROM `category` ORDER BY `id`;");
 
-                        $categories = $statement->fetchAll(PDO::FETCH_OBJ);
+                    $statement = $db->query("SELECT `id`, `name` FROM `category` ORDER BY `id`;");
 
-                        foreach ($categories as $category) {
-                    ?>
-                    <tr>
-                        <th scope="row"><?php echo $category->id; ?></th>
-                        <td>
-                            <input type="text" class="border-0" placeholder="Category name" aria-label="Category name" value="<?php echo $category->name; ?>">
-                        </td>
-                        <td>
-                            <a href="/resources/php/_show_vis_coin_category.php?id=<?php echo $category->id; ?>"><i class="fas fa-eye"></i></a>
-                            <a href="/resources/php/_hide_vis_coin_category.php?id=<?php echo $category->id; ?>"><i class="fas fa-eye-slash"></i></a>
-                            <a href="/resources/php/_update_category.php?id=<?php echo $category->id; ?>"><i class="fas fa-save"></i></a>
-                            <a href="/resources/php/_delete_category.php?id=<?php echo $category->id; ?>"><i class="fas fa-trash-alt"></i></a>
-                        </td>
-                    </tr>
-                    <?php
+                    $categories = $statement->fetchAll(PDO::FETCH_OBJ);
+
+                    foreach ($categories as $category) {
+                        if (isset($_GET['id'])) {
+                            if ($category->id === $_GET['id']) {
+                                ?>
+                                    <tr id="cat<?php echo $category->id; ?>" class="category_editable bg-primary">
+                                        <th scope="row" class="text-light"><?php echo $category->id; ?></th>
+                                        <td>
+                                            <form id="cat-edit" action="/resources/php/_update_category.php" method="post">
+                                                <label>
+                                                    <input hidden name="id" value="<?php echo $category->id; ?>">
+                                                </label>
+                                                <label>
+                                                    <input class="category_input" name="name" value="<?php echo $category->name; ?>">
+                                                </label>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-outline-light py-0" type="submit" form="cat-edit">Save</button>
+                                            <a href="admin_coins.php#cat<?php echo $category->id; ?>" class="btn btn-outline-light py-0">Cancel</a>
+                                        </td>
+                                    </tr>
+                                <?php
+                            } else {
+                                ?>
+                                <tr id="cat<?php echo $category->id; ?>" class="category_editable">
+                                    <th scope="row"><?php echo $category->id; ?></th>
+                                    <td>
+                                        <?php echo $category->name; ?>
+                                    </td>
+                                    <td>
+                                        <a href="/resources/php/_show_vis_coin_category.php?id=<?php echo $category->id; ?>"><i class="fas fa-eye"></i></a>
+                                        <a href="/resources/php/_hide_vis_coin_category.php?id=<?php echo $category->id; ?>"><i class="fas fa-eye-slash"></i></a>
+                                        <a href="admin_coins.php?id=<?php echo $category->id; ?>&name=<?php echo $category->name; ?>#cat<?php echo $category->id; ?>"><i class="fas fa-edit"></i></i></a>
+                                        <a href="/resources/php/_delete_category.php?id=<?php echo $category->id; ?>"><i class="fas fa-trash-alt"></i></a>
+                                    </td>
+                                </tr>
+                                <?php
+                            }
+                        } else {
+                            ?>
+                            <tr id="cat<?php echo $category->id; ?>" class="category_editable">
+                                <th scope="row"><?php echo $category->id; ?></th>
+                                <td>
+                                    <a class="text-decoration-none text-black" href="admin_coins.php?id=<?php echo $category->id; ?>&name=<?php echo $category->name; ?>#cat<?php echo $category->id; ?>"><?php echo $category->name; ?></a>
+                                </td>
+                                <td>
+                                    <a href="/resources/php/_show_vis_coin_category.php?id=<?php echo $category->id; ?>"><i class="fas fa-eye"></i></a>
+                                    <a href="/resources/php/_hide_vis_coin_category.php?id=<?php echo $category->id; ?>"><i class="fas fa-eye-slash"></i></a>
+                                    <a href="admin_coins.php?id=<?php echo $category->id; ?>&name=<?php echo $category->name; ?>#cat<?php echo $category->id; ?>"><i class="fas fa-edit"></i></i></a>
+                                    <a href="/resources/php/_delete_category.php?id=<?php echo $category->id; ?>"><i class="fas fa-trash-alt"></i></a>
+                                </td>
+                            </tr>
+                            <?php
                         }
+                    }
                     ?>
                     </tbody>
                 </table>

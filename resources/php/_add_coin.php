@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["id"])) {
-    header("Location: /_login.php");
+    header("Location: /login.php");
     return false;
 }
 
@@ -26,13 +26,13 @@ if (empty($_POST)) {
 
     // Check if the symbol can be found and get the current price
     $data = json_decode(file_get_contents("https://api.binance.com/api/v3/avgPrice?symbol=".$symbol), TRUE);
-    $price = $data['price'];
-    if (!isset($price)) {
+    if (!isset($data['price'])) {
         $_SESSION['dashboard-alert-type'] = 'error';
         $_SESSION['dashboard-message'] = 'Unable to find price with given symbol.';
         header("Location: /admin_coins.php");
         return false;
     }
+    $price = $data['price'];
 
     if (!is_uploaded_file($_FILES ['picture'] ['tmp_name'])) {
         $_SESSION['dashboard-alert-type'] = 'error';
@@ -43,7 +43,6 @@ if (empty($_POST)) {
         $statement = $db->prepare("SELECT COUNT(id) FROM `coins` WHERE `id` = :id");
         $statement->execute(array('id' => $symbol));
         $count = $statement->fetch(PDO::FETCH_ASSOC);
-
 
         if ($count['COUNT(id)'] >= '1') {
             $_SESSION['dashboard-alert-type'] = 'error';

@@ -1,50 +1,44 @@
 <?php
 $page = $_SERVER['REQUEST_URI'];
-echo $page;
 ?>
 <div class="fixed-top">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="text-center w-100">
-            <a class="bg-primary text-dark" href="/">
-                <img src="https://via.placeholder.com/100x100" width="60" class="img-fluid" alt="Placeholder, please replace!">
+            <a class="text-dark" href="/">
+                <img src="/public/images/logo.png" width="60" class="img-fluid mb-2" alt="Placeholder, please replace!">
             </a>
         </div>
         <div class="container-fluid">
-            <button class="navbar-toggler w-100" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <div class="position-absolute end-0 top-0 m-2">
+            <div class="position-absolute end-0 top-0 m-2">
+                <?php
+                if (isset($_SESSION["id"])) {?>
+                    <div class="dropdown">
+                        <button class="btn text-primary dropdown-toggle" type="button" id="navbar_account_dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Session
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbar_account_dropdown">
+                            <li><a class="dropdown-item text-secondary" href="/dashboard.php">Dashboard</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-secondary" href="/resources/php/_logout.php"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                        </ul>
+                    </div>
                     <?php
-                    if (isset($_SESSION["id"])) {?>
-                        <div class="dropdown">
-                            <button class="btn text-primary dropdown-toggle" type="button" id="navbar_account_dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                Session
-                            </button>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbar_account_dropdown">
-                                <li><a class="dropdown-item text-secondary" href="/dashboard.php">Dashboard</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-secondary" href="/resources/php/_logout.php"> <i class="fas fa-sign-out-alt"></i> Logout</a></li>
-                            </ul>
-                        </div>
-                        <?php
-                    } else {
-                        echo '<a class="text-decoration-none" href="login.php"><button class="btn text-primary">Login</button></a>';
-                    }
-                    ?>
-                </div>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link <?php if ($page === '/') echo 'active' ?>" href="/"><i class="fas fa-home"></i> Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?php if ($page === '/coins.php') echo 'active' ?>" href="coins.php"><i class="fab fa-bitcoin"></i> Coins</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <?php if ($page === '/contact.php') echo 'active' ?>" href="contact.php"><i class="fas fa-envelope"></i> Contact</a>
-                    </li>
-                </ul>
+                } else {
+                    echo '<a class="text-decoration-none" href="login.php"><button class="btn text-primary">Login</button></a>';
+                }
+                ?>
             </div>
+            <ul class="navbar-nav m-auto flex-row">
+                <li class="nav-item mx-1">
+                    <a class="nav-link <?php if ($page === '/') echo 'active' ?>" href="/"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="nav-item mx-1">
+                    <a class="nav-link <?php if ($page === '/coins.php') echo 'active' ?>" href="coins.php"><i class="fab fa-bitcoin"></i> Coins</a>
+                </li>
+                <li class="nav-item mx-1">
+                    <a class="nav-link <?php if ($page === '/contact.php') echo 'active' ?>" href="contact.php"><i class="fas fa-envelope"></i> Contact</a>
+                </li>
+            </ul>
         </div>
     </nav>
     <div id="crypto-price-line">

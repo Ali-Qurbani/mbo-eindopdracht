@@ -17,7 +17,7 @@ function use_template($name, $email, $tel, $comment) {
 function get_db_slide_info($db) {
     $statement = $db->query("SELECT `id`, `image_src`, `visibility`, `title`, `description` FROM `slider-images` ORDER BY `visibility` DESC");
 
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $statement->fetchAll(PDO::FETCH_OBJ);
 }
 
 function get_db_coin_info($db) {
@@ -49,5 +49,5 @@ function update_prices($db) {
 function crypto_calculator_prices($db) {
     $statement = $db->query("SELECT `icon_src`, `name`, `price` FROM `coins` WHERE `visibility` = '1'");
 
-    return $statement->fetchAll(PDO::FETCH_ASSOC);
+    return $statement->fetchAll(PDO::FETCH_OBJ);
 }

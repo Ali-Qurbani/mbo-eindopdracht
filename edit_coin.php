@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["id"])) {
-    header("Location: /_login.php");
+    header("Location: /login.php");
     return false;
 }
 include_once 'resources/php/_connect_db.php';
@@ -16,8 +16,14 @@ if (empty($_GET['id'])) {
     $sql = 'SELECT `id`, `icon_src`, `name`, `price`, `visibility` FROM `coins` WHERE `id` = :id';
     $sth = $db->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
     $sth->execute(array('id' => $id));
-    $current_coin = $sth->fetch();
+    $current_coin = $sth->fetch(PDO::FETCH_OBJ);
 
+    if (empty($current_coin->id)) {
+        $_SESSION['dashboard-alert-type'] = 'error';
+        $_SESSION['dashboard-message'] = 'Coin doesnt exist.';
+        header("Location: /admin_coins.php");
+        return false;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -45,7 +51,7 @@ if (empty($_GET['id'])) {
             </nav>
             <form action="/resources/php/_edit_coin.php" method="post" enctype="multipart/form-data">
                 <div class="d-none">
-                    <input class="form-control" type="text" value="<?php echo $current_coin['id']; ?>" aria-label="old_id" name="old_id" readonly>
+                    <input class="form-control" type="text" value="<?php echo $current_coin->id; ?>" aria-label="old_id" name="old_id" readonly>
                 </div>
                 <div class="my-3">
                     <label for="picture" class="form-label">Icon</label>
@@ -54,14 +60,14 @@ if (empty($_GET['id'])) {
                 </div>
                 <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value="<?php echo $current_coin['name']; ?>">
+                    <input type="text" class="form-control" id="name" name="name" value="<?php echo $current_coin->name; ?>">
                 </div>
                 <div class="mb-3">
                     <label for="symbol" class="form-label">Symbol</label>
-                    <input type="text" class="form-control" id="symbol" name="symbol" value="<?php echo $current_coin['id']; ?>">
+                    <input type="text" class="form-control" id="symbol" name="symbol" value="<?php echo $current_coin->id; ?>">
                 </div>
                 <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="visibility" name="visibility" value="1" <?php if ($current_coin['visibility'] === '1') echo 'checked' ?>>
+                    <input type="checkbox" class="form-check-input" id="visibility" name="visibility" value="1" <?php if ($current_coin->visibility === '1') echo 'checked' ?>>
                     <label class="form-check-label" for="visibility">Visible</label>
                 </div>
                 <button type="submit" class="btn btn-outline-primary">Save</button>

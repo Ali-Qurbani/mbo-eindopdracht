@@ -55,8 +55,12 @@ if(isset($_SESSION['attempt_again'])){
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" id="password" name="password">
-            <div id="passwordHelp" class="form-text">Forgot your password? click <a href="password_help.php">here</a>.</div>
+            <div id="nameHelp" class="form-text">Case and space sensitive.</div>
         </div>
+        <label class="mb-2">
+            <input id="show_password_box" type="checkbox">
+            Show Password
+        </label><br>
         <button type="submit" class="btn btn-outline-primary">Login</button>
     </form>
 </div>

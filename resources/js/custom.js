@@ -225,3 +225,17 @@ for (i = 0; i < coll.length; i++) {
         }
     });
 }
+
+let password_Box = document.getElementById("show_password_box");
+if (password_Box) {
+    password_Box.addEventListener("click", toggle_vis)
+    let input = document.getElementById("password");
+    function toggle_vis()
+    {
+        if (input.type === "password") {
+            input.type = "text";
+        } else {
+            input.type = "password";
+        }
+    }
+}

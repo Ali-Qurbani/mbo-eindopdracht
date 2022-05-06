@@ -38,16 +38,16 @@ include_once 'resources/php/_functions.php';
     ?>
     <form id="contact_form" action="resources/php/_form_script.php" method="post">
         <div class="row">
-            <div class="col">
+            <div class="col-sm">
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
+                    <label for="name" class="form-label">Name *</label>
                     <input type="text" class="form-control" id="name" name="name">
                     <div id="nameErr" class="text-danger"></div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-sm">
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
+                    <label for="email" class="form-label">Email address *</label>
                     <input type="email" class="form-control" id="email" name="email">
                     <div id="emailErr" class="text-danger"></div>
                 </div>
@@ -58,7 +58,7 @@ include_once 'resources/php/_functions.php';
             <input type="tel" class="form-control" id="phone" name="tel">
         </div>
         <div class="mb-3">
-            <label for="message" class="form-label">Message</label>
+            <label for="message" class="form-label">Message *</label>
             <textarea class="form-control" id="message" name="message"></textarea>
             <div id="commentErr" class="text-danger"></div>
         </div>

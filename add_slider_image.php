@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["id"])) {
-    header("Location: /_login.php");
+    header("Location: /login.php");
     return false;
 }
 include_once 'resources/php/_connect_db.php';
@@ -17,11 +17,10 @@ include_once 'resources/php/_functions.php';
 <body>
 <?php include_once '_partials/_navbar.php' ?>
 
-<div class="row w-100">
-    <div class="col-2">
-        <?php include_once '_partials/_sidebar.php' ?>
-    </div>
-    <div class="col">
+<div class="wrapper">
+    <?php include_once '_partials/_sidebar.php' ?>
+    <!-- Page Content  -->
+    <div id="content">
         <div class="container p-5">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">

@@ -3448,6 +3448,21 @@ for (i = 0; i < coll.length; i++) {
   });
 }
 
+var password_Box = document.getElementById("show_password_box");
+
+if (password_Box) {
+  var toggle_vis = function toggle_vis() {
+    if (input.type === "password") {
+      input.type = "text";
+    } else {
+      input.type = "password";
+    }
+  };
+
+  password_Box.addEventListener("click", toggle_vis);
+  var input = document.getElementById("password");
+}
+
 /***/ }),
 
 /***/ "./node_modules/bootstrap/dist/js/bootstrap.esm.js":

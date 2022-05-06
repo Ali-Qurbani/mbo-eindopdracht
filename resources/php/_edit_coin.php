@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION["id"])) {
-    header("Location: /_login.php");
+    header("Location: /login.php");
     return false;
 }
 
@@ -22,14 +22,25 @@ if (empty($_POST) || empty($_POST['symbol'])) {
         $visibility = 0;
     }
 
+    // Check if the symbol can be found and get the current price
+    $data = json_decode(file_get_contents("https://api.binance.com/api/v3/avgPrice?symbol=".$symbol), TRUE);
+    $price = $data['price'];
+    if (!isset($price)) {
+        $_SESSION['dashboard-alert-type'] = 'error';
+        $_SESSION['dashboard-message'] = 'Unable to find price with given symbol.';
+        header("Location: /admin_coins.php");
+        return false;
+    }
+
     if (!is_uploaded_file($_FILES ['picture'] ['tmp_name'])) {
         $statement = 'UPDATE `coins` SET 
                            `id` = :symbol, 
-                           `name` = :coin_name, 
+                           `name` = :coin_name,
+                           `price` = :price,
                            `visibility` = :visibility 
                             WHERE `coins`.`id` = :old_id;';
         $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-        $sth->execute(array('symbol' => $symbol, 'coin_name' => $coin_name, 'visibility' => $visibility, 'old_id' => $old_id));
+        $sth->execute(array('symbol' => $symbol, 'coin_name' => $coin_name, 'price' => $price, 'visibility' => $visibility, 'old_id' => $old_id));
     } else {
         $unique_filename = time() . uniqid(rand());
 
@@ -57,10 +68,11 @@ if (empty($_POST) || empty($_POST['symbol'])) {
                            `id` = :symbol, 
                            `icon_src` = :target, 
                            `name` = :coin_name, 
+                           `price` = :price,
                            `visibility` = :visibility 
                             WHERE `coins`.`id` = :old_id;';
         $sth = $db->prepare($statement, array(PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY));
-        $sth->execute(array('symbol' => $symbol, 'target' => $target, 'coin_name' => $coin_name, 'visibility' => $visibility, 'old_id' => $old_id));
+        $sth->execute(array('symbol' => $symbol, 'target' => $target, 'coin_name' => $coin_name, 'price' => $price, 'visibility' => $visibility, 'old_id' => $old_id));
     }
 
     $_SESSION['dashboard-alert-type'] = 'success';

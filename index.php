@@ -17,16 +17,16 @@ include_once 'resources/php/_functions.php';
     <?php
     $statement = $db->query("SELECT * FROM `slider-images` WHERE `visibility` = '1'");
 
-    $slider_images = $statement->fetchAll(PDO::FETCH_ASSOC);
+    $slider_images = $statement->fetchAll(PDO::FETCH_OBJ);
 
     foreach ($slider_images as $slide) {
         ?>
             <div class="position-relative">
                 <div class="slider-text">
-                    <h1 class="text-secondary"><?php echo $slide['title'] ?></h1>
-                    <p><?php echo $slide['description'] ?></p>
+                    <h1 class="text-secondary"><?php echo $slide->title ?></h1>
+                    <p><?php echo $slide->description ?></p>
                 </div>
-                <img src="<?php echo $slide['image_src'] ?>" class="img-fluid" alt="Slider image">
+                <img src="<?php echo $slide->image_src ?>" class="img-fluid" alt="Slider image">
             </div>
         <?php
     }
@@ -35,8 +35,8 @@ include_once 'resources/php/_functions.php';
 <div class="container my-5">
     <div class="bg-primary text-light p-5">
         <div class="row">
-            <div class="col">
-                <img src="https://via.placeholder.com/400x200" alt="Placeholder, please replace!">
+            <div class="col-md">
+                <img class="img-fluid" src="https://via.placeholder.com/400x200" alt="Placeholder, please replace!">
             </div>
             <div class="col">
                 <h2>Lorem ipsum</h2>
@@ -116,7 +116,7 @@ include_once 'resources/php/_functions.php';
 
                             foreach ($coin_options as $option) {
                                 ?>
-                                <option id="<?php echo $option['icon_src'] ?>" value="<?php echo $option['price'] ?>"><?php echo $option['name'] ?></option>
+                                <option id="<?php echo $option->icon_src ?>" value="<?php echo $option->price ?>"><?php echo $option->name ?></option>
                                 <?php
                             }
                             ?>
@@ -139,18 +139,18 @@ include_once 'resources/php/_functions.php';
             </div>
         </div>
         <div class="mt-5">
-            <div class="row">
-                <div class="col text-center p-5">
+            <div class="row pb-4">
+                <div class="col-md text-center p-5">
                     <i class="far big-icon text-white fa-question-circle"></i>
                 </div>
-                <div class="col">
+                <div class="col-md">
                     <h2 class="text-white">Any questions?</h2>
                     <p>Feel free to contact us</p>
                     <div class="row">
-                        <div class="col-5">
+                        <div class="col-5 w-50">
                             <a href="contact.php"><button class="btn btn-outline-light py-4"><i class="fas fa-file-alt"></i> Use the contact form</button></a>
                         </div>
-                        <div class="col">
+                        <div class="col w-50">
                             <a href="mailto:info@website.com"><button class="btn btn-outline-light py-4"><i class="fas fa-paper-plane"></i> Send us an email</button></a>
                         </div>
                     </div>
